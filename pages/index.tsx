@@ -2,6 +2,6 @@ import React from "react";
 
 export default () => (
   <div>
-    <h1>Hello</h1>
+    <h1>List of tweets</h1>
   </div>
 );

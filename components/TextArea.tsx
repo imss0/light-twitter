@@ -36,7 +36,7 @@ export default function Textarea({
         id={id}
         placeholder={placeholder}
         onChange={handleResizeHeight}
-        rows={1}
+        rows={2}
         ref={textarea}
         className="rounded-md border border-gray-400 p-2 resize-none overflow-hidden"
       />

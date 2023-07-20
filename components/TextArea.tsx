@@ -29,7 +29,7 @@ export default function Textarea({
   }, []);
 
   return (
-    <div className="w-1/3 m-2 p-1 flex flex-col">
+    <div className="w-full p-1 flex flex-col">
       <textarea
         {...rest}
         // {...register}

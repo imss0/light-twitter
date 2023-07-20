@@ -17,7 +17,7 @@ export default function Button({
   return (
     <button
       {...rest}
-      className={`${buttonSizes[size]} m-2 rounded-md bg-blue-400 text-white hover:bg-blue-600`}
+      className={`${buttonSizes[size]} m-1 rounded-md bg-blue-400 text-white cursor-pointer hover:bg-blue-600`}
     >
       {text}
     </button>

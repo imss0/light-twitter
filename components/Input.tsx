@@ -31,9 +31,12 @@ export default function Input({
         type={type}
         placeholder={placeholder}
         className={`rounded-md border border-gray-400 p-1.5 ${
-          error ? "border-red-500" : ""
+          error ? "focus:outline-red-500" : ""
         }`}
       />
+      <div className="text-red-500 text-xs">
+        {error ? "there is an error" : null}
+      </div>
     </div>
   );
 }

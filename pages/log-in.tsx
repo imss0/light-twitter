@@ -1,16 +1,25 @@
+import Link from "next/link";
 import React from "react";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import Textarea from "../components/TextArea";
+import Layout from "../components/Layout";
 
 export default function Login() {
   return (
-    <div>
-      <h1>Log in page</h1>
-      <Input label="Email" type="email" id="email" error={true} />
+    <Layout title="Log in">
+      <Input label="Email" type="email" id="email" />
       <Input label="Password" type="password" id="password" required />
-      <Textarea id="posting" />
-      <Button size="large" text="Login" />
-    </div>
+      <div className="mt-6">
+        <Button size="large" text="Login" />
+      </div>
+      <div className="flex mt-12 text-sm">
+        <div className=" text-gray-600 mr-2">Don't have an account?</div>
+        <Link href="/create-account">
+          <div className="font-semibold text-blue-600 cursor-pointer">
+            Create account
+          </div>
+        </Link>
+      </div>
+    </Layout>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
@@ -14,32 +14,27 @@ interface LoginForm {
 
 export default function Login() {
   const { register, handleSubmit } = useForm<LoginForm>();
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const onValid = async (data: LoginForm) => {
-    if (!loading) {
-      const request = await fetch("/api/auth/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (request.status === 200) {
-        toast.success("Successfully logged in");
-        setTimeout(() => {
-          router.push("/");
-        }, 1000);
-      }
-      if (request.status === 404) {
-        toast.error("Email not exists");
-        setLoading(false);
-      }
-      if (request.status === 403) {
-        toast.error("Wrong password");
-        setLoading(false);
-      }
+    const request = await fetch("/api/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    if (request.status === 200) {
+      toast.success("Successfully logged in");
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    }
+    if (request.status === 404) {
+      toast.error("Email not exists");
+    }
+    if (request.status === 403) {
+      toast.error("Wrong password");
     }
   };
 

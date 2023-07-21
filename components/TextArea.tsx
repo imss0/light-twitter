@@ -1,45 +1,63 @@
-// import type { UseFormRegisterReturn } from "react-hook-form";
+import {
+  useEffect,
+  useState,
+  FC,
+  forwardRef,
+  TextareaHTMLAttributes,
+} from "react";
 
-import { useEffect, useRef } from "react";
-
-interface TextareaProps {
+interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   placeholder?: string;
   id: string;
-  onChange?: any;
-  // register: UseFormRegisterReturn;
-  [key: string]: any;
 }
 
-export default function Textarea({
-  placeholder,
-  id,
-  // register,
-  ...rest
-}: TextareaProps) {
-  const textarea = useRef<HTMLTextAreaElement>(null);
+const TextArea: FC<TextareaProps> = forwardRef<
+  HTMLTextAreaElement,
+  TextareaProps
+>(({ placeholder, id, ...rest }, ref) => {
+  const [textareaElement, setTextAreaElement] =
+    useState<HTMLTextAreaElement | null>(null);
+
   const handleResizeHeight = () => {
-    if (textarea.current) {
-      textarea.current.style.height = "auto";
-      textarea.current.style.height = textarea.current.scrollHeight + "px";
+    if (textareaElement) {
+      textareaElement.style.height = "auto";
+      textareaElement.style.height = textareaElement.scrollHeight + "px";
     }
   };
 
   useEffect(() => {
     handleResizeHeight();
-  }, []);
+
+    if (textareaElement) {
+      textareaElement.addEventListener("input", handleResizeHeight);
+    }
+
+    return () => {
+      if (textareaElement) {
+        textareaElement.removeEventListener("input", handleResizeHeight);
+      }
+    };
+  }, [textareaElement]);
 
   return (
     <div className="w-full p-1 flex flex-col">
       <textarea
         {...rest}
-        // {...register}
         id={id}
         placeholder={placeholder}
-        onChange={handleResizeHeight}
         rows={2}
-        ref={textarea}
+        ref={(el) => {
+          setTextAreaElement(el);
+          if (typeof ref === "function") {
+            ref(el);
+          } else if (ref && typeof ref === "object") {
+            ref.current = el;
+          }
+        }}
         className="rounded-md border border-gray-400 p-2 resize-none overflow-hidden"
       />
     </div>
   );
-}
+});
+
+export default TextArea;

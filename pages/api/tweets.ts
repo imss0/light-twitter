@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { withApiSession } from "../../../lib/withSession";
-import db from "../../../lib/db";
+import { withApiSession } from "../../lib/withSession";
+import db from "../../lib/db";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
@@ -10,15 +10,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!user?.id) {
     return res.status(401).end();
   }
-  const dbUser = await db.user.findUnique({
-    where: {
-      id: user.id,
-    },
-  });
-  if (!dbUser) {
-    return res.status(404).end();
-  }
-  return res.send(dbUser);
+  const tweets = await db.tweet.findMany();
+  console.log(tweets);
+  return res.send(tweets);
 }
 
 export default withApiSession(handler);

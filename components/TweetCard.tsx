@@ -5,14 +5,16 @@ interface TweetCardProps {
   nickname: string;
   timestamp: string;
   content: string;
+  [key: string]: any;
 }
 
 const TweetCard: FC<TweetCardProps> = forwardRef<
   HTMLDivElement,
   TweetCardProps
->(({ nickname, timestamp, content }, ref) => {
+>(({ nickname, timestamp, content, ...rest }, ref) => {
   return (
     <div
+      {...rest}
       ref={ref}
       className="w-full p-2.5 border-b border-gray-200 hover:bg-gray-200 cursor-pointer"
     >

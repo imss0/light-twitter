@@ -1,8 +1,8 @@
 import React from "react";
 import useSWR from "swr";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import Link from "next/link";
 import Button from "../components/Button";
 import Layout from "../components/Layout";
 import Textarea from "../components/TextArea";
@@ -24,6 +24,7 @@ interface TweetData {
 export default () => {
   const { data: user } = useSWR("/api/auth/me");
   const { data: tweets, mutate } = useSWR("/api/tweets");
+  const router = useRouter();
 
   const { register, handleSubmit, reset } = useForm<ContentForm>();
   const onValid = async ({ content }: ContentForm) => {
@@ -41,6 +42,20 @@ export default () => {
       toast.success("posted!");
       reset();
       mutate();
+    } else {
+      toast.error("Something went wrong");
+    }
+  };
+
+  const onClick = async (id: string) => {
+    const request = await fetch(`/api/tweet/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (request.status === 200) {
+      router.push(`/tweet/${id}`);
     } else {
       toast.error("Something went wrong");
     }
@@ -65,15 +80,13 @@ export default () => {
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           )
           .map((tweet: TweetData) => (
-            <Link href={`/tweet/${tweet.id}`} key={tweet.id}>
-              <a className="w-full">
-                <TweetCard
-                  nickname={tweet.nickname}
-                  timestamp={tweet.createdAt}
-                  content={tweet.content}
-                />
-              </a>
-            </Link>
+            <TweetCard
+              onClick={() => onClick(tweet.id)}
+              key={tweet.id}
+              nickname={tweet.nickname}
+              timestamp={tweet.createdAt}
+              content={tweet.content}
+            />
           ))}
       </TweetList>
       <Toaster />

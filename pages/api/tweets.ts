@@ -10,9 +10,24 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!user?.id) {
     return res.status(401).end();
   }
-  const tweets = await db.tweet.findMany();
-  console.log(tweets);
-  return res.send(tweets);
+
+  const tweetsWithUsers = await db.tweet.findMany({
+    include: {
+      user: true,
+    },
+  });
+
+  const tweetsWithNicknames = tweetsWithUsers.map((tweetWithUser) => {
+    return {
+      id: tweetWithUser.id,
+      nickname: tweetWithUser.user.nickname,
+      content: tweetWithUser.content,
+      createdAt: tweetWithUser.createdAt,
+      updatedAt: tweetWithUser.updatedAt,
+    };
+  });
+
+  return res.send(tweetsWithNicknames);
 }
 
 export default withApiSession(handler);

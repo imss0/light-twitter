@@ -2,6 +2,7 @@ import React from "react";
 import useSWR from "swr";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
+import Link from "next/link";
 import Button from "../components/Button";
 import Layout from "../components/Layout";
 import Textarea from "../components/TextArea";
@@ -25,7 +26,6 @@ export default () => {
   const { data: tweets, mutate } = useSWR("/api/tweets");
 
   const { register, handleSubmit, reset } = useForm<ContentForm>();
-  console.log(tweets);
   const onValid = async ({ content }: ContentForm) => {
     const request = await fetch("/api/tweet", {
       method: "POST",
@@ -65,12 +65,15 @@ export default () => {
               new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           )
           .map((tweet: TweetData) => (
-            <TweetCard
-              key={tweet.id}
-              nickname={tweet.nickname}
-              timestamp={tweet.createdAt}
-              content={tweet.content}
-            />
+            <Link href={`/tweet/${tweet.id}`} key={tweet.id}>
+              <a className="w-full">
+                <TweetCard
+                  nickname={tweet.nickname}
+                  timestamp={tweet.createdAt}
+                  content={tweet.content}
+                />
+              </a>
+            </Link>
           ))}
       </TweetList>
       <Toaster />

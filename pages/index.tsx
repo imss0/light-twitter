@@ -22,9 +22,13 @@ interface TweetData {
 }
 
 export default () => {
-  const { data: user } = useSWR("/api/auth/me", null, {
-    revalidateOnFocus: false,
-  });
+  const { data: user, isValidating: fetchingUser } = useSWR(
+    "/api/auth/me",
+    null,
+    {
+      revalidateOnFocus: false,
+    }
+  );
   const { data: tweets, mutate } = useSWR("/api/tweets", null, {
     revalidateOnFocus: false,
   });
@@ -80,10 +84,13 @@ export default () => {
   };
 
   useEffect(() => {
+    if (fetchingUser) {
+      return;
+    }
     if (!user) {
       router.push("/log-in");
     }
-  }, [user]);
+  }, [user, fetchingUser]);
 
   if (!user) {
     return null;

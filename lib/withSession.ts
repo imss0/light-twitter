@@ -12,7 +12,6 @@ const cookieOptions = {
   cookieName: "light-twitter-session",
   password: "alkfjlasjfkasejtlkaejlaekstjalktjealwktewajk",
   cookieOptions: {
-    ttl: 86400,
     isSameSite: "Lax",
     path: "/",
   },

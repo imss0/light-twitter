@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import db from "../../../lib/db";
 import * as bcrypt from "bcrypt";
-import { withApiSession } from '../../../lib/withSession';
+import db from "@lib/db";
+import { withApiSession } from '@lib/withSession';
 
  async function handler(
   req: NextApiRequest,

@@ -3,11 +3,11 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import Button from "../components/Button";
-import Layout from "../components/Layout";
-import Textarea from "../components/TextArea";
-import TweetCard from "../components/TweetCard";
-import TweetList from "../components/TweetList";
+import Button from "@components/Button";
+import Layout from "@components/Layout";
+import Textarea from "@components/TextArea";
+import TweetCard from "@components/TweetCard";
+import TweetList from "@components/TweetList";
 
 interface ContentForm {
   content: string;

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { withApiSession } from "../../../lib/withSession";
-import db from "../../../lib/db";
+import { withApiSession } from "@lib/withSession";
+import db from "@lib/db";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {

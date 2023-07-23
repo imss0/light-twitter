@@ -3,7 +3,7 @@ import useSWR from "swr";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import moment from "moment";
-import Layout from "../../components/Layout";
+import Layout from "@components/Layout";
 
 export default function Tweet() {
   const router = useRouter();

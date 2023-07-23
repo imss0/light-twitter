@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { withApiSession } from '../../../lib/withSession';
+import { withApiSession } from '@lib/withSession';
 
 async function handler(
   req: NextApiRequest,

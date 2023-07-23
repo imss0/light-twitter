@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import db from "../../../lib/db";
 import * as bcrypt from "bcrypt";
+import { withApiSession } from '../../../lib/withSession';
 
-export default async function handler(
+ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
@@ -29,3 +30,5 @@ export default async function handler(
   }
   return res.status(405).end();
 }
+
+export default withApiSession(handler);

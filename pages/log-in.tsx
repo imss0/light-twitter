@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
@@ -37,6 +37,10 @@ export default function Login() {
       toast.error("Wrong password");
     }
   };
+
+  useEffect(() => {
+    return () => toast.dismiss();
+  }, []);
 
   return (
     <Layout title="Log in">

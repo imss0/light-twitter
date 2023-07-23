@@ -1,10 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import db from "../../../lib/db";
+import { withApiSession } from "../../../lib/withSession";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     const { id } = req.query;
     if (isNaN(Number(id))) {
@@ -20,7 +18,6 @@ export default async function handler(
         },
       });
       if (tweet) {
-        console.log(tweet);
         return res.status(200).json(tweet);
       }
     } else {
@@ -28,4 +25,4 @@ export default async function handler(
     }
   }
 }
-
+export default withApiSession(handler);

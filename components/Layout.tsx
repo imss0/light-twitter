@@ -11,7 +11,7 @@ interface LayoutProps {
 export default function Layout({ title, children }: LayoutProps) {
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <div className="w-96 flex flex-col items-center mt-10  relative">
+      <div className="w-full max-w-[648px] p-4 flex flex-col items-center mt-10  relative">
         <h3 className="font-bold mb-10">{title}</h3>
         {children}
       </div>

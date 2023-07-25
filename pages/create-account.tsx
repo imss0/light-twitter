@@ -14,9 +14,15 @@ interface CreateAccountForm {
 }
 
 export default function CreateAccount() {
-  const { register, handleSubmit } = useForm<CreateAccountForm>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<CreateAccountForm>();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { nickname, email, password } = watch();
 
   const onValid = async (data: CreateAccountForm) => {
     if (!loading) {
@@ -29,7 +35,12 @@ export default function CreateAccount() {
         body: JSON.stringify(data),
       });
       if (req.status === 200) {
-        toast.error("Account Already Exists");
+        const { error } = await req.json();
+        if (error === "email") {
+          toast.error("Email Already Exists");
+        } else if (error === "nickname") {
+          toast.error("Nickname Already Exists");
+        }
       }
       if (req.status === 201) {
         toast.success("Account Created");
@@ -73,8 +84,18 @@ export default function CreateAccount() {
           placeholder="8-character minimum"
           required
         />
+        {
+          <span className="text-xs ml-1.5 font-semibold text-red-500">
+            {errors.password?.message}
+          </span>
+        }
         <div className="mt-6">
-          <Button size="large" text="Create Account" type="submit" />
+          <Button
+            size="large"
+            text="Create Account"
+            type="submit"
+            disabled={!(nickname && email && password)}
+          />
         </div>
         <div className="flex mt-12 text-sm">
           <div className=" text-gray-600 mr-2">Already have an account?</div>

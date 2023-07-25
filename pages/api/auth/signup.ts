@@ -1,23 +1,29 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import * as bcrypt from "bcrypt";
 import db from "@lib/db";
-import { withApiSession } from '@lib/withSession';
+import { withApiSession } from "@lib/withSession";
 
- async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseType>
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const { nickname, email, password } = req.body;
-    const user = await db.user.findUnique({
+    const existingEmailUser = await db.user.findUnique({
       where: {
         email,
       },
     });
-    if (user) {
-      console.log("user already exists");
-      return res.status(200).end();
+    if (existingEmailUser) {
+      return res.status(200).json({ error: "email" });
     }
+
+    const existingNicknameUser = await db.user.findUnique({
+      where: {
+        nickname,
+      },
+    });
+    if (existingNicknameUser) {
+      return res.status(200).json({ error: "nickname" });
+    }
+
     await db.user.create({
       data: {
         nickname,

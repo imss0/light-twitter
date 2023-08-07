@@ -1,7 +1,7 @@
 interface ButtonProps {
   size?: "default" | "large";
   text: string;
-  disabled: boolean;
+  disabled?: boolean;
   [key: string]: any;
 }
 
